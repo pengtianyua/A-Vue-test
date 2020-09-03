@@ -39,7 +39,7 @@ export default {
   //方法集合
   methods: {
     itemClick() {
-      this.$router.replace(this.path)
+      this.$router.replace(this.path).catch(err => err)
     }
   }
 }
@@ -56,7 +56,7 @@ export default {
     width: 24px;
     height: 24px;
     vertical-align: middle;
-    margin-top: 2px;
+    margin-top: 5px;
     margin-bottom: 2px;
   }
 }

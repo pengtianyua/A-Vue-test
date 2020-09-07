@@ -1,3 +1,11 @@
+<!--
+ * @Author: pty
+ * @Date: 2020-09-02 19:18:00
+ * @LastEditTime: 2020-09-07 08:58:59
+ * @LastEditors: pty
+ * @Description: 首页
+ * @FilePath: \test\src\views\home\home.vue
+-->
 <template>
 <div id="home">
   <!-- 顶部导航 -->

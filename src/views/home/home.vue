@@ -1,8 +1,8 @@
 <!--
  * @Author: pty
  * @Date: 2020-09-02 19:18:00
- * @LastEditTime: 2020-09-07 08:58:59
- * @LastEditors: pty
+ * @LastEditTime: 2020-09-19 17:55:30
+ * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \test\src\views\home\home.vue
 -->
@@ -13,49 +13,46 @@
     <div slot="center">购物街</div>
   </nav-bar>
   <!-- END -->
-  <!-- 轮播图 -->
-  <home-swiper :banners="banners" />
-  <!-- END -->
-  <!-- 推荐数据 -->
-  <recommend-view :recommends="recommends" />
-  <!-- END -->
-  <!-- 本周流行 -->
-  <popular-view />
-  <!-- END -->
   <!-- TabControl -->
-  <tab-control class="tab_control" :title="['流行', '新款', '精选']" @tabClick="tabClick" />
+  <tab-control class="tab_control" v-show="isTabFixed" :title="['流行', '新款', '精选']" @tabClick="tabClick" ref="tabControl1" />
   <!-- END -->
-  <!-- 商品数据 -->
-  <goods :goods="showGoods" />
+  <!-- 滚动 -->
+  <scroll class="content" ref="scroll" :pull-up-load="true" :probe-type="3" @scroll="contentScroll" @pullingUp="loadMore">
+    <!-- 轮播图 -->
+    <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
+    <!-- END -->
+    <!-- 推荐数据 -->
+    <recommend-view :recommends="recommends" />
+    <!-- END -->
+    <!-- 本周流行 -->
+    <popular-view />
+    <!-- END -->
+    <!-- TabControl -->
+    <tab-control :title="['流行', '新款', '精选']" @tabClick="tabClick" ref="tabControl2" />
+    <!-- END -->
+    <!-- 商品数据 -->
+    <goods :goods="showGoods" />
+    <!-- END -->
+  </scroll>
   <!-- END -->
-  <ul>
-    <li>11</li>
-    <li>12</li>
-    <li>13</li>
-    <li>14</li>
-    <li>15</li>
-    <li>16</li>
-    <li>17</li>
-    <li>18</li>
-    <li>19</li>
-    <li>110</li>
-    <li>111</li>
-    <li>112</li>
-    <li>113</li>
-    <li>114</li>
-    <li>115</li>
-  </ul>
+  <!-- 返回顶部 -->
+  <back-top @click.native="backTop" v-show="isShowBackTop" />
+  <!-- END -->
 </div>
 </template>
 
 <script>
 //引入顶部导航组件
 import NavBar from 'components/common/navbar/NavBar'
+//引入滚动组件
+import Scroll from 'components/common/scroll/Scroll'
 
 //引入TabControl组件
 import TabControl from 'components/content/tabControl/TabControl'
 //引入商品组件
 import Goods from 'components/content/goods/Goods'
+//引入返回顶部组件
+import BackTop from 'components/content/backTop/BackTop'
 
 //引入轮播图组件
 import HomeSwiper from './childComponents/HomeSwiper'
@@ -70,12 +67,19 @@ import {
   getHomeData
 } from 'network/home.js'
 
+//引入防抖函数
+import {
+  debounce
+} from 'common/utils'
+
 export default {
   name: 'home',
   components: {
     NavBar,
+    Scroll,
     TabControl,
     Goods,
+    BackTop,
     HomeSwiper,
     RecommendView,
     PopularView
@@ -103,7 +107,10 @@ export default {
           list: []
         }
       },
-      currentType: 'pop'
+      currentType: 'pop',
+      isShowBackTop: false,
+      tabOffsetTop: 0,
+      isTabFixed: false
     }
   },
   created() {
@@ -114,10 +121,18 @@ export default {
     this.getHomeData('new')
     this.getHomeData('sell')
   },
+  mounted() {
+    const refresh = debounce(this.$refs.scroll.refresh, 200);
+    //监听图片加载完成
+    this.$bus.$on('itemImageLoad', () => {
+      refresh()
+    })
+  },
   methods: {
     /**
      * 事件监听方法
      */
+    //tab切换方法
     tabClick(index) {
       // console.log(index);
       switch (index) {
@@ -130,6 +145,31 @@ export default {
         case 2:
           this.currentType = 'sell'
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
+    },
+    // 返回顶部方法
+    backTop() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+
+    //控制返回顶部按钮是否显示
+    contentScroll(position) {
+      //判断返回顶部是否显示
+      this.isShowBackTop = (-position.y) > 1000
+      //判断是否tabControl是否吸顶
+      this.isTabFixed = (-position.y) > this.tabOffsetTop
+    },
+
+    //上拉加载更多
+    loadMore() {
+      this.getHomeData(this.currentType)
+      this.$refs.scroll.finishPullUp()
+    },
+
+    //监听轮播图加载完成
+    swiperImageLoad() {
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
     },
 
     /**
@@ -159,24 +199,36 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 #home {
-  padding-top: 44px;
+  // padding-top: 44px;
+  position: relative;
+  height: 100vh;
 
   .home_nav {
     background-color: var(--color-tint);
     color: #fff;
 
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
+    position: relative;
+    // left: 0;
+    // right: 0;
+    // top: 0;
     z-index: 999;
   }
+}
 
-  .tab_control {
-    position: sticky;
-    top: 44px;
-  }
+.content {
+  // height: 500px;
+  // overflow: hidden;
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+}
+
+.tab_control {
+  position: relative;
+  z-index: 9;
 }
 </style>

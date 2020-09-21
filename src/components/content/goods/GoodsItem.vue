@@ -1,6 +1,14 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-04 17:34:53
+ * @LastEditTime: 2020-09-19 16:03:48
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \test\src\components\content\goods\GoodsItem.vue
+-->
 <template>
 <div class='GoodsItem'>
-  <img :src="goodsItem.show.img" alt="">
+  <img :src="goodsItem.show.img" alt="" @load="imageLoad">
   <div class="goods_info">
     <p>{{ goodsItem.title }}</p>
     <span class="price">{{ goodsItem.price }}</span>
@@ -20,7 +28,13 @@ export default {
       }
     }
   },
-  components: {}
+  components: {},
+  methods: {
+    imageLoad() {
+      //利用事件总线发射事件
+      this.$bus.$emit('itemImageLoad')
+    }
+  }
 }
 </script>
 

@@ -1,3 +1,11 @@
+/*
+ * @Author: pty
+ * @Date: 2020-09-02 16:26:53
+ * @LastEditTime: 2020-09-22 10:17:33
+ * @LastEditors: Please set LastEditors
+ * @Description: 页面路由配置
+ * @FilePath: \test\src\router\index.js
+ */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -10,6 +18,7 @@ const Home = () => import('views/home/home');
 const Category = () => import('views/category/category');
 const Cart = () => import('views/cart/cart');
 const Profile = () => import('views/profile/profile');
+const Detail = () => import('views/detail/detail');
 
 //创建路由对象
 const routes = [
@@ -32,6 +41,10 @@ const routes = [
   {
     path: '/profile',
     component: Profile
+  },
+  {
+    path: '/detail/:id',
+    component: Detail
   }
 ]
 

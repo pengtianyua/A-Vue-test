@@ -1,7 +1,7 @@
 <!--
  * @Author: pty
  * @Date: 2020-09-02 19:18:00
- * @LastEditTime: 2020-09-19 17:55:30
+ * @LastEditTime: 2020-09-22 18:37:45
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \test\src\views\home\home.vue
@@ -110,7 +110,9 @@ export default {
       currentType: 'pop',
       isShowBackTop: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      //记录用户离开页面时所滚动到的位置
+      saveY: 0
     }
   },
   created() {
@@ -120,6 +122,17 @@ export default {
     this.getHomeData('pop')
     this.getHomeData('new')
     this.getHomeData('sell')
+  },
+  destroyed() {
+    console.log(1);
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    this.$refs.scroll.refresh()
+  },
+  deactivated() {
+    //离开页面时获取滚动到的位置
+    this.saveY = this.$refs.scroll.getScroll()
   },
   mounted() {
     const refresh = debounce(this.$refs.scroll.refresh, 200);

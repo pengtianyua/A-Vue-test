@@ -1,9 +1,9 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 16:26:53
- * @LastEditTime: 2020-09-19 16:02:39
- * @LastEditors: your name
- * @Description: In User Settings Edit
+ * @LastEditTime: 2020-09-22 15:20:17
+ * @LastEditors: Please set LastEditors
+ * @Description: 入口函数
  * @FilePath: \test\src\main.js
  */
   import Vue from 'vue'

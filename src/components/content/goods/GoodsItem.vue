@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-04 17:34:53
- * @LastEditTime: 2020-09-19 16:03:48
+ * @LastEditTime: 2020-09-22 09:01:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \test\src\components\content\goods\GoodsItem.vue
 -->
 <template>
-<div class='GoodsItem'>
+<div class='GoodsItem' @click="itemClick">
   <img :src="goodsItem.show.img" alt="" @load="imageLoad">
   <div class="goods_info">
     <p>{{ goodsItem.title }}</p>
@@ -33,6 +33,9 @@ export default {
     imageLoad() {
       //利用事件总线发射事件
       this.$bus.$emit('itemImageLoad')
+    },
+    itemClick() {
+      this.$router.push('/detail/' + this.goodsItem.iid)
     }
   }
 }

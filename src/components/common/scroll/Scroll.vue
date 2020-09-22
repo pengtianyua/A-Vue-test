@@ -1,7 +1,7 @@
 <!--
  * @Author: pty
  * @Date: 2020-09-08 17:31:31
- * @LastEditTime: 2020-09-19 16:46:21
+ * @LastEditTime: 2020-09-22 17:26:38
  * @LastEditors: Please set LastEditors
  * @Description: 滚动组件
  * @FilePath: \test\src\components\common\scroll\scroll.vue
@@ -16,6 +16,7 @@
 
 <script>
 import BScroll from 'better-scroll'
+
 export default {
   name: 'Scroll',
   data() {
@@ -58,6 +59,9 @@ export default {
     },
     refresh() {
       this.scroll && this.scroll.refresh()
+    },
+    getScroll() {
+      return this.scroll ? this.scroll.y : 0
     }
   },
   components: {}

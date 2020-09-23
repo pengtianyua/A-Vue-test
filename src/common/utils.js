@@ -1,9 +1,9 @@
 /*
  * @Author: your name
  * @Date: 2020-09-19 16:56:35
- * @LastEditTime: 2020-09-19 17:00:28
- * @LastEditors: your name
- * @Description: In User Settings Edit
+ * @LastEditTime: 2020-09-23 11:56:56
+ * @LastEditors: Please set LastEditors
+ * @Description: 工具函数
  * @FilePath: \test\src\common\utils.js
  */
 
@@ -17,4 +17,30 @@ export function debounce(func, delay) {
       func.apply(this, args)
     }, delay)
   }
+}
+
+//格式化日期
+export function formateDate(date, fmt) {
+  //获取年份
+  if(/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  let o = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds()
+  };
+  for (let k in o) {
+    if(new RegExp(`(${k})`).test(fmt)) {
+      let str = o[k] + '';
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length  === 1) ? str : padLeftZero(str));
+    }
+  }
+  return fmt
+} 
+
+function padLeftZero(str) {
+  return ('00' + str).substr(str.length);
 }

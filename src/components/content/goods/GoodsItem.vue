@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-04 17:34:53
- * @LastEditTime: 2020-09-22 09:01:30
+ * @LastEditTime: 2020-09-23 17:04:26
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 首页单个商品
  * @FilePath: \test\src\components\content\goods\GoodsItem.vue
 -->
 <template>
 <div class='GoodsItem' @click="itemClick">
-  <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+  <img :src="showImage" alt="" @load="imageLoad">
   <div class="goods_info">
     <p>{{ goodsItem.title }}</p>
     <span class="price">{{ goodsItem.price }}</span>
@@ -29,6 +29,11 @@ export default {
     }
   },
   components: {},
+  computed: {
+    showImage() {
+      return this.goodsItem.image || this.goodsItem.show.img
+    }
+  },
   methods: {
     imageLoad() {
       //利用事件总线发射事件

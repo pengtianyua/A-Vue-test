@@ -1,7 +1,7 @@
 <!--
  * @Author: pty
  * @Date: 2020-09-02 19:18:00
- * @LastEditTime: 2020-09-22 18:37:45
+ * @LastEditTime: 2020-09-23 17:25:32
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \test\src\views\home\home.vue
@@ -67,10 +67,10 @@ import {
   getHomeData
 } from 'network/home.js'
 
-//引入防抖函数
+//引入混入
 import {
-  debounce
-} from 'common/utils'
+  itemListenerMixin
+} from 'common/mixin.js'
 
 export default {
   name: 'home',
@@ -89,6 +89,7 @@ export default {
       return this.goods[this.currentType].list
     }
   },
+  mixins: [itemListenerMixin],
   data() {
     return {
       banners: [],
@@ -123,23 +124,20 @@ export default {
     this.getHomeData('new')
     this.getHomeData('sell')
   },
-  destroyed() {
-    console.log(1);
-  },
   activated() {
+    //再次进入页面时滚动到离开时记录的位置
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
     this.$refs.scroll.refresh()
   },
   deactivated() {
     //离开页面时获取滚动到的位置
     this.saveY = this.$refs.scroll.getScroll()
+
+    //取消监听事件
+    this.$bus.$off('itemImageLoad', this.itemImgListener)
   },
   mounted() {
-    const refresh = debounce(this.$refs.scroll.refresh, 200);
-    //监听图片加载完成
-    this.$bus.$on('itemImageLoad', () => {
-      refresh()
-    })
+
   },
   methods: {
     /**

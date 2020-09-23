@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-22 09:10:33
- * @LastEditTime: 2020-09-22 09:27:26
+ * @LastEditTime: 2020-09-23 17:56:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \test\src\views\detail\childComponents\detailNavBar.vue
@@ -35,6 +35,7 @@ export default {
   methods: {
     titleClick(index) {
       this.currentIndex = index
+      this.$emit('titleClick', index)
     },
     backClick() {
       this.$router.back()

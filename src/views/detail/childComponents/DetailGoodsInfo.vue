@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-22 17:58:59
+ * @LastEditTime: 2020-09-23 10:21:21
+ * @LastEditors: Please set LastEditors
+ * @Description: 商品信息
+ * @FilePath: \test\src\views\detail\childComponents\DetailGoodsInfo.vue
+-->
 <template>
 <div v-if="Object.keys(detailInfo).length !== 0" class="goods-info">
   <div class="info-desc clear-fix">
@@ -33,6 +41,7 @@ export default {
   },
   methods: {
     imageLoad() {
+      //每次监听图片加载完成先对变量++再和图片个数进行对比，相等时向外发射自定义事件
       if (++this.counter === this.imageLength) {
         this.$emit('imageLoad')
       }

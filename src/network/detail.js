@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-22 09:30:48
- * @LastEditTime: 2020-09-22 16:55:37
+ * @LastEditTime: 2020-09-23 16:40:42
  * @LastEditors: Please set LastEditors
  * @Description: 封装请求商品详情数据
  * @FilePath: \test\src\network\detail.js
@@ -17,6 +17,13 @@ export function getDetail(id) {
   })
 }
 
+export function getRecommend() {
+  return request({
+    url: '/recommend'
+  })
+}
+
+//对后端返回的数据进行整合 抽离到一个对象中 传给组件使用
 export class Goods {
   constructor(itemInfo, columns, services) {
     this.title = itemInfo.title;
@@ -38,5 +45,14 @@ export class Shop {
     this.sells = shopInfo.cSells;
     this.score = shopInfo.score;
     this.goodsCount = shopInfo.cGoods;
+  }
+}
+
+export class GoodsParam {
+  constructor(info, rule) {
+    //images可能没有值(某些商品有值，某些没有)
+    this.image = info.images ? info.images[0] : '';
+    this.infos = info.set;
+    this.sizes = rule.tables;
   }
 }

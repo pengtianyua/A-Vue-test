@@ -1,15 +1,15 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-22 08:49:46
- * @LastEditTime: 2020-09-23 18:48:45
+ * @LastEditTime: 2020-09-24 14:12:33
  * @LastEditors: Please set LastEditors
  * @Description: 商品详情页
  * @FilePath: \test\src\views\detail\detail.vue
 -->
 <template>
 <div id='detail'>
-  <detail-nav-bar class="detail_nav" @titleClick="titleClick" />
-  <scroll class="content" ref="scroll" :pull-up-load="true" :probe-type="3">
+  <detail-nav-bar class="detail_nav" @titleClick="titleClick" ref="nav" />
+  <scroll class="content" ref="scroll" :pull-up-load="true" :probe-type="3" @scroll="contentScroll">
     <detail-swiper :top-images="topImages" />
     <detail-base-info :goods="goods" />
     <detail-shop-info :shop="shop" />
@@ -18,6 +18,8 @@
     <detail-comment-info ref="comment" :comment-info="commentInfo" />
     <goods-list ref="recommend" :goods="recommend" />
   </scroll>
+  <back-top @click.native="backTop" v-show="isShowBackTop" />
+  <detail-bottom-bar @addTo="addToCart" />
 </div>
 </template>
 
@@ -36,6 +38,8 @@ import DetailGoodsInfo from './childComponents/DetailGoodsInfo'
 import DetailParamInfo from './childComponents/DetailParamInfo'
 //引入评论组件
 import DetailCommentInfo from './childComponents/DetailCommentInfo'
+//引入底部工具栏组件
+import DetailBottomBar from './childComponents/DetailBottomBar'
 
 //引入滚动组件
 import Scroll from 'components/common/scroll/Scroll'
@@ -50,7 +54,8 @@ import {
 
 //引入混入
 import {
-  itemListenerMixin
+  itemListenerMixin,
+  backTop
 } from 'common/mixin.js'
 
 import {
@@ -71,9 +76,13 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
-    GoodsList
+    GoodsList,
+    DetailBottomBar
   },
-  mixins: [itemListenerMixin],
+  mixins: [
+    itemListenerMixin,
+    backTop
+  ],
   data() {
     return {
       iid: null,
@@ -85,7 +94,8 @@ export default {
       commentInfo: {},
       recommend: [],
       themeTopY: [],
-      getThemeTopY: null
+      getThemeTopY: null,
+      currentIndex: null
     }
   },
   created() {
@@ -119,7 +129,6 @@ export default {
 
     //请求推荐数据
     getRecommend().then(res => {
-      console.log(res);
       this.recommend = res.data.data.list
     })
 
@@ -139,7 +148,7 @@ export default {
       this.themeTopY.push(this.$refs.params.$el.offsetTop - 44)
       this.themeTopY.push(this.$refs.comment.$el.offsetTop - 44)
       this.themeTopY.push(this.$refs.recommend.$el.offsetTop - 44)
-      console.log(this.themeTopY);
+      this.themeTopY.push(Number.MAX_VALUE)
     }, 100)
   },
   destroyed() {
@@ -157,6 +166,44 @@ export default {
     },
     titleClick(index) {
       this.$refs.scroll.scrollTo(0, -this.themeTopY[index], 200)
+    },
+    contentScroll(position) {
+      //获取y值
+      const positionY = -position.y
+
+      this.listenShowBackTop(position)
+      //对比position.y和themeTopY中的值
+      let length = this.themeTopY.length
+
+      /**用空间换时间 提高性能 */
+      for (let i = 0; i < length - 1; i++) {
+        if (this.currentIndex !== i && positionY >= this.themeTopY[i] && positionY < this.themeTopY[i + 1]) {
+          this.currentIndex = i;
+          this.$refs.nav.currentIndex = this.currentIndex
+        }
+      }
+
+      /**普通做法
+       * for (let i = 0; i < length; i++) {
+        if (this.currentIndex !== i && ((i < length - 1 && positionY >= this.themeTopY[i] && positionY < this.themeTopY[i + 1]) || (i === length - 1 && positionY >= this.themeTopY[i]))) {
+          this.currentIndex = i;
+          this.$refs.nav.currentIndex = this.currentIndex
+        }
+      }
+       */
+
+    },
+    //添加商品至购物车
+    addToCart() {
+      //获取购物车需要展示的数据
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+      //添加商品
+      this.$store.dispatch('addCart', product)
     }
   }
 }
@@ -177,6 +224,6 @@ export default {
 }
 
 .content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 49px);
 }
 </style>

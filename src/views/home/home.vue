@@ -1,7 +1,7 @@
 <!--
  * @Author: pty
  * @Date: 2020-09-02 19:18:00
- * @LastEditTime: 2020-09-23 17:25:32
+ * @LastEditTime: 2020-09-24 10:37:10
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \test\src\views\home\home.vue
@@ -51,8 +51,6 @@ import Scroll from 'components/common/scroll/Scroll'
 import TabControl from 'components/content/tabControl/TabControl'
 //引入商品组件
 import Goods from 'components/content/goods/Goods'
-//引入返回顶部组件
-import BackTop from 'components/content/backTop/BackTop'
 
 //引入轮播图组件
 import HomeSwiper from './childComponents/HomeSwiper'
@@ -69,7 +67,8 @@ import {
 
 //引入混入
 import {
-  itemListenerMixin
+  itemListenerMixin,
+  backTop
 } from 'common/mixin.js'
 
 export default {
@@ -79,7 +78,6 @@ export default {
     Scroll,
     TabControl,
     Goods,
-    BackTop,
     HomeSwiper,
     RecommendView,
     PopularView
@@ -89,7 +87,10 @@ export default {
       return this.goods[this.currentType].list
     }
   },
-  mixins: [itemListenerMixin],
+  mixins: [
+    itemListenerMixin,
+    backTop
+  ],
   data() {
     return {
       banners: [],
@@ -109,7 +110,6 @@ export default {
         }
       },
       currentType: 'pop',
-      isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
       //记录用户离开页面时所滚动到的位置
@@ -159,15 +159,11 @@ export default {
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    // 返回顶部方法
-    backTop() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
 
     //控制返回顶部按钮是否显示
     contentScroll(position) {
       //判断返回顶部是否显示
-      this.isShowBackTop = (-position.y) > 1000
+      this.listenShowBackTop(position)
       //判断是否tabControl是否吸顶
       this.isTabFixed = (-position.y) > this.tabOffsetTop
     },

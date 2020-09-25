@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-03 09:52:21
+ * @LastEditTime: 2020-09-25 15:52:07
+ * @LastEditors: Please set LastEditors
+ * @Description: 导航栏组件
+ * @FilePath: \test\src\components\common\navbar\NavBar.vue
+-->
 <template>
 <div class="nav_bar">
   <div class="nav_bar_left">
@@ -33,6 +41,7 @@ export default {
 
   .nav_bar_center {
     flex: 1;
+    font-size: 16px;
     // background-color: green;
   }
 }

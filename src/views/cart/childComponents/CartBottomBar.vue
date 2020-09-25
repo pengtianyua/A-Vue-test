@@ -1,17 +1,17 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-24 17:35:18
- * @LastEditTime: 2020-09-24 18:05:11
+ * @LastEditTime: 2020-09-25 10:31:29
  * @LastEditors: Please set LastEditors
  * @Description: 购物车底部工具栏
  * @FilePath: \test\src\views\cart\childComponents\CartBottomBar.vue
 -->
 <template>
 <div class="bottom-menu">
-  <CheckButton class="select-all" @checkBtnClick="checkBtnClick" v-model="isSelectAll"></CheckButton>
+  <check-button class="select-all" @click.native="checkBtnClick" :isCheck="isSelectedAll"></check-button>
   <span>全选</span>
   <span class="total-price">合计: ¥{{totalPrice}}</span>
-  <span class="buy-product">去计算({{checkLength}})</span>
+  <span class="buy-product" @click="calcClick">去结算({{checkLength}})</span>
 </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
   },
   computed: {
     ...mapGetters(['cartList']),
+    //计算勾选商品的总价格
     totalPrice() {
       return this.cartList.filter(item => {
         return item.checked
@@ -36,8 +37,27 @@ export default {
         return preValue + item.price * item.count
       }, 0).toFixed(2)
     },
+    //计算勾选商品的总数量
     checkLength() {
       return this.cartList.filter(item => item.checked).length
+    },
+    isSelectedAll() {
+      if (this.cartList.length === 0) return false
+      return !(this.cartList.filter(item => !item.checked).length)
+    }
+  },
+  methods: {
+    checkBtnClick() {
+      if (this.isSelectedAll) { //全选状态
+        this.cartList.forEach(item => item.checked = false)
+      } else {
+        this.cartList.forEach(item => item.checked = true)
+      }
+    },
+    calcClick() {
+      if (!this.isSelectedAll) {
+        this.$toast.show('请选择购买的商品')
+      }
     }
   }
 }

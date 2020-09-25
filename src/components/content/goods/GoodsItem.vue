@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-04 17:34:53
- * @LastEditTime: 2020-09-23 17:04:26
+ * @LastEditTime: 2020-09-25 11:28:13
  * @LastEditors: Please set LastEditors
  * @Description: 首页单个商品
  * @FilePath: \test\src\components\content\goods\GoodsItem.vue
 -->
 <template>
 <div class='GoodsItem' @click="itemClick">
-  <img :src="showImage" alt="" @load="imageLoad">
+  <img v-lazy="showImage" alt="" @load="imageLoad">
   <div class="goods_info">
     <p>{{ goodsItem.title }}</p>
     <span class="price">{{ goodsItem.price }}</span>

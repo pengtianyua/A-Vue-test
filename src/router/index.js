@@ -1,7 +1,7 @@
 /*
  * @Author: pty
  * @Date: 2020-09-02 16:26:53
- * @LastEditTime: 2020-09-22 10:17:33
+ * @LastEditTime: 2020-09-25 16:59:07
  * @LastEditors: Please set LastEditors
  * @Description: 页面路由配置
  * @FilePath: \test\src\router\index.js
@@ -53,6 +53,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
 
 //导出路由对象
 export default router

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-22 08:49:46
- * @LastEditTime: 2020-09-24 14:12:33
+ * @LastEditTime: 2020-09-25 10:28:05
  * @LastEditors: Please set LastEditors
  * @Description: 商品详情页
  * @FilePath: \test\src\views\detail\detail.vue
@@ -203,7 +203,10 @@ export default {
       product.price = this.goods.realPrice;
       product.iid = this.iid;
       //添加商品
-      this.$store.dispatch('addCart', product)
+      this.$store.dispatch('addCart', product).then(res => {
+        // console.log(res);
+        this.$toast.show(res)
+      })
     }
   }
 }

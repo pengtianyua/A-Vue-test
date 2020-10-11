@@ -1,4 +1,11 @@
-<!-- 项目tabbar组件 -->
+<!--
+ * @Author: your name
+ * @Date: 2020-09-02 18:19:45
+ * @LastEditTime: 2020-09-29 10:08:58
+ * @LastEditors: Please set LastEditors
+ * @Description: tabbar组件
+ * @FilePath: \test\src\components\content\mainTabBar\MainTabBar.vue
+-->
 <template>
 <tab-bar>
   <tab-bar-item path="/home">

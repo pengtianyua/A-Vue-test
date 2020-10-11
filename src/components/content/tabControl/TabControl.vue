@@ -1,3 +1,11 @@
+<!--
+ * @Author: PengTianyu
+ * @Date: 2020-09-04 08:46:47
+ * @LastEditTime: 2020-09-29 10:07:59
+ * @LastEditors: swt
+ * @Description: Tab切换组件
+ * @FilePath: \test\src\components\content\tabControl\TabControl.vue
+-->
 <template>
 <div class='tab_control'>
   <div v-for="(item, index) in title" :key="index" class="tab_control_item" :class="{ active: currentIndex === index }" @click="itemClick(index)">

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 16:26:53
- * @LastEditTime: 2020-09-25 11:34:29
+ * @LastEditTime: 2020-09-28 15:56:46
  * @LastEditors: Please set LastEditors
  * @Description: 入口函数
  * @FilePath: \test\src\main.js
@@ -16,7 +16,6 @@ import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad, {
   loading: require('assets/img/common/user.png')
 })
-
 
 import FastClick from 'fastclick'
 //解决移动端300ms延迟

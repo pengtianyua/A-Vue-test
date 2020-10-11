@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-23 17:16:20
- * @LastEditTime: 2020-09-24 10:41:00
+ * @LastEditTime: 2020-09-29 09:52:06
  * @LastEditors: Please set LastEditors
  * @Description: 混入供多个组件调用
  * @FilePath: \test\src\common\mixin.js
@@ -33,6 +33,7 @@ export const itemListenerMixin = {
   }
 }
 
+//混入返回顶部组件
 export const backTop = {
   components: {
     BackTop

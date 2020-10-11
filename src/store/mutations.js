@@ -11,3 +11,4 @@ export default {
     state.cartList.push(payload)
   }
 }
+

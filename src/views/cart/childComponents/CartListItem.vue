@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-24 16:57:27
- * @LastEditTime: 2020-09-24 18:08:47
+ * @LastEditTime: 2020-09-28 14:48:05
  * @LastEditors: Please set LastEditors
  * @Description: 购物车单个商品
  * @FilePath: \test\src\views\cart\childComponents\CartListItem.vue
@@ -12,7 +12,7 @@
     <CheckButton :is-check="itemInfo.checked" @click.native="checkClick" />
   </div>
   <div class="item-img">
-    <img :src="itemInfo.image" alt="商品图片">
+    <img :src="itemInfo.image" alt="商品图片" />
   </div>
   <div class="item-info">
     <div class="item-title">{{itemInfo.title}}</div>
@@ -26,27 +26,27 @@
 </template>
 
 <script>
-import CheckButton from 'components/content/checkButton/CheckButton'
+import CheckButton from "components/content/checkButton/CheckButton";
 export default {
-  name: 'CartListItem',
+  name: "CartListItem",
   props: {
     itemInfo: {
       type: Object,
       default () {
-        return {}
-      }
-    }
+        return {};
+      },
+    },
   },
   components: {
-    CheckButton
+    CheckButton,
   },
   methods: {
     //监听按钮点击
     checkClick() {
-      this.itemInfo.checked = !this.itemInfo.checked
-    }
-  }
-}
+      this.itemInfo.checked = !this.itemInfo.checked;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

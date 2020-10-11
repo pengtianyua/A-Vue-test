@@ -15,7 +15,7 @@ Vue.use(VueRouter)
 
 //路由懒加载
 const Home = () => import('views/home/home');
-const Category = () => import('views/category/category');
+const Category = () => import('views/category/Category');
 const Cart = () => import('views/cart/cart');
 const Profile = () => import('views/profile/profile');
 const Detail = () => import('views/detail/detail');

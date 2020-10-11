@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-24 16:13:15
- * @LastEditTime: 2020-09-24 18:08:58
+ * @LastEditTime: 2020-09-28 14:47:38
  * @LastEditors: Please set LastEditors
  * @Description: 购物车商品详情
  * @FilePath: \test\src\views\cart\childComponents\cartList.vue
 -->
 <template>
-<div class='cart_list'>
+<div class="cart_list">
   <scroll class="content" ref="scroll" :pull-up-load="true" :probe-type="3">
     <cart-list-item v-for="(item, index) in cartList" :key="index" :itemInfo="item" />
   </scroll>
@@ -15,26 +15,26 @@
 </template>
 
 <script>
-import Scroll from 'components/common/scroll/Scroll'
-import CartListItem from './CartListItem'
+import Scroll from "components/common/scroll/Scroll";
+import CartListItem from "./CartListItem";
 
 import {
   mapGetters
-} from 'vuex'
+} from "vuex";
 
 export default {
-  name: 'CartList',
+  name: "CartList",
   components: {
     Scroll,
-    CartListItem
+    CartListItem,
   },
   computed: {
-    ...mapGetters(['cartList'])
+    ...mapGetters(["cartList"]),
   },
   activated() {
-    this.$refs.scroll.refresh()
-  }
-}
+    this.$refs.scroll.refresh();
+  },
+};
 </script>
 
 <style lang="less" scoped>
